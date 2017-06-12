@@ -310,14 +310,14 @@
 % not capitalized unless they are the first or last word of the title.
 % Linebreaks \\ can be used within to get better formatting as desired.
 % Do not put math or special symbols in the title.
-\title{Short Paper: Application of Microsoft Windows in Engineering Workflows}
+\title{Short Paper: cvfHUB: A Gateway Supporting Microsoft Windows in Engineering Workflows}
 
 
 % author names and affiliations
 % use a multiple column layout for up to three different
 % affiliations
 \author{\IEEEauthorblockN{David Benham}
-\IEEEauthorblockA{Research Computing\\
+\IEEEauthorblockA{HUBzero \\
 Purdue University\\
 West Lafayette, Indiana 47907\\
 Email: dbenham@purdue.edu}}
@@ -329,7 +329,23 @@ Email: dbenham@purdue.edu}}
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
 \begin{abstract}
-The abstract goes here.
+
+The HUBzero\textsuperscript{\textregistered}  platform enables scientists to
+build off one another's research by providing a robust collaborative platform
+to allow them to share the software they created and utilized for their work.
+Customized tools, code, and data was no longer forgotten after a research
+effort was complete, HUBzero enabled researchers to offer their tools for
+anyone to use and modify so they could continue to collaborate long after the
+initial project was over.
+
+Early versions of HUBzero focused on providing researchers a Linux based
+environment to host their software. Our group realized there was growing
+interest in HUBzero hosting commercial, licensed software, which often requires
+Microsoft Windows, so we begin to investigate how we could integrate Microsoft
+WIndows into our platform.  A key partner, IACMI (what does this stand for
+actually) joined the effort.  In this paper, we discuss the architecture of the
+solution and learnings along the way.
+
 \end{abstract}
 
 % no keywords
@@ -341,54 +357,191 @@ The abstract goes here.
 \section{Introduction}
 % no \IEEEPARstart
 
+nanoHUB \cite{TECHCON:Kapadia96} pioneered scientific cloud computing beginning
+in 1996. ÂSince its inception, nanoHUB has undergone several evolutions in the
+manner in which it delivers scientific simulation tools over the web.
+Ultimately this resulted in having developed a Linux solution from the ground
+up to host simulation tools and allow users to easily put graphical interfaces
+on those tools \cite{ETechNano:Lundstrom06} \cite{Rappture:McLennan04}. ÂThe
+solution for Linux was a PHP driven system that supported remote rendering of a
+Linux desktop in a web browser using VNC. ÂIn its first release, this involved
+a Java applet running in the web browser. ÂAs technologies continued to evolve,
+Java encountered industry-wide security concerns and became less supported by
+browser creators, and more importantly, restricted by many of the organizations
+to which our users belong. ÂA second iteration of the technology was released
+that utilizes HTML5 rather than the Java client, circumventing these
+limitations.
 
-The HUBzero platform enables scientists to build off one another's research by
-providing a robust collaborative platform to allow them to share the software
-they created and utilized for their work. Customized tools, code, and data was
-no longer forgotten after a research effort was complete, HUBzero enabled
-researchers to offer their tools for anyone to use and modify so they could
-continue to collaborate long after the initial project was over.
+During this same time of evolution, the infrastructure that supports nanoHUB
+was also spun out as a separate entity called HUBzero with the intent of
+supporting many other science gateways with the same infrastructure that drove
+nanoHUB. ÂAs more scientific communities adopted HUBzero, the support team for
+HUBzero evolved the infrastructure to adapt to some of the unique needs of
+those communities. ÂOne community in particular that has become a significant
+HUBzero user is in the area of virtual composite materials design and
+manufacture. ÂThis community is further from the basic science and closer to
+the application of materials in the commercial marketplace than many other
+HUBzero gateways. ÂTherefore, a significant requirement of this community was
+to host Microsoft Windows based tools, both academically and commercially
+developed.
 
-Early versions of HUBzero focused on providing researchers a Linux based
-environment to host their software. Our group realized there was growing
-interest in HUBzero hosting commercial, licensed software, which often requires
-Microsoft Windows, so we begin to investigate how we could integrate Microsoft
-WIndows into our platform.
+To satisfy this need, the HUBzero team considered applying our own expertise to
+extend our existing platform into the Windows domain. However, hosting Windows
+applications and development workspaces in the cloud is significantly different
+than its Linux counterpart. ÂThe highly customized approach taken with our
+LInux based system was not a viable approach as we ventured into the world of
+Microsoft WIndows because the operating system and many tools were not open
+source. So we began to investigate commercial off the shelf hardware.
 
-Having developed our Linux solution developed from the ground up, we considered
-applying our own expertise to extend our existing platform into the Windows
-domain. However we quickly realized Windows was quite a different animal than
-Linux. Our highly customized approach we were able to take with our LInux based
-system was not a viable approach as we ventured into the world of Microsoft
-WIndows because the operating system and many tools were not open source. So we
-began to investigate commercial off the shelf hardware.
+Next we will describe the nature of the engineering workflows in cvfHUB and
+motivation for the solution, several technologies tried in fulfilling this
+need, and the lessons learned in providing this capability.
 
-Our first attempt to offer Windows tools inside our HUBzero platform involved
+
+\section{Composite Virtual Factory HUB (cvfHUB)}
+
+cvfHUB is focused on applying materials design principles to real world
+applications in the automotive industry.  Specifically, the goal of cvfHUB is
+to allow design of materials virtually, before ever manufacturing them
+physically. This capability will allow thousands of possibilities to be tested
+virtually before investing significant funds into manufacturing and physically
+testing only the most promising options.  Typically these tasks involve
+multi-objective optimization in the face of constraints such as optimizing the
+weight of a given part but maintaining durability and performance criteria
+within certain bounds expected to be encountered in deployment.  The workflows
+involved in such part optimizations can include basic composite material
+design, analysis of how the material will perform during molding and forming
+processes, cutting processes, curing processes, finishing processes, and under
+expected operating conditions.  Such an analysis involves the combination of
+academic and commercial codes, and a significant amount of â``translation''
+code in between that interpret outputs of one tool and reformation of those
+outputs into inputs that a subsequent tool can accept.  Once constructed, such
+a workflow may be executed hundreds or thousands of times during the design of
+a given part to perform the optimization.  cvfHUB is intended to host these
+workflows, along with collaboration tools for distributed engineering teams as
+they undergo design activities.
+
+
+\section{Solutions for Hosting Windows}
+
+Three different technologies were evaluated and used in providing Windows
+support: Amazon AppStream, Amazon AppStream v2, and Citrix.  Below these three
+are contrasted with their respective capabilities and matched against the
+requirements of cvfHUB.
+
+
+\subsection{Amazon AppStream}
+
+The first attempt to offer Windows tools inside our HUBzero platform involved
 leveraging Amazon's AppStream service. The AppStream service was originally
-designed as a cloud service that allowed game developers a way to offer online
-game demos without requiring the user to download and install large pieces of
-software on local clients. Utilizing AppStream, software could be preinstalled
-and run in on demand virtual machines running on the Amazon Web Services
-platform. Unfortunately, AppStream based Windows tools had some severe
-limitations that required us to look at other options.
+designed as a cloud service that offered video game developers a way to offer
+online game demos without requiring their prospective customers to download and
+install large pieces of software on local clients. Utilizing AppStream,
+software could be pre installed and run in on demand virtual machines running
+on the Amazon Web Services platform.
 
-We then evaluated Citrix XenApp and XenDesktops. Citrix was a market leader in
-providing remote access Windows software and it solved many of our problems,
-but it had a steep learning curve.
+AWS AppStream integration was completed in a very short timeframe, and it
+initially appeared to offer an excellent user experience. The largest concern
+with HUBzero's WIndows integration in the early stages was to develop as
+seamless an experience as possible for end users, and the need for a highly
+responsive UI and video streaming support were critical. Other benefits of
+AppStream included on-demand environments that greatly helped us reduce costs
+over building infrastructure, as well as a robust web browser plug-in for us
+client side to display application streams to end users. However, as users
+began to work with this solution, it turned out AppStream's lack of support for
+shared file systems, and the level of integration with the local client did not
+allow sharing clipboard text or files from local filesystems. These limitations
+proved extremely difficult to overcome, and the AppStream virtual environments
+themselves did not allow users to customize the environment, so we could not
+overcome these limitations.
+
+\subsection{Amazon AppStream version 2}
+
+During our integration of AppStream, we were in contact with the software
+engineers at AWS and they helped us address some of our early concerns. AWS
+engineers informed us AppStream v2 was being developed. We were able to get
+early access to some of the design documentation and the new feature sets they
+were proposing for the next version of AppStream appeared to address some of
+our concerns, so we contemplated using the next version of AppStream. However,
+the AWS engineering team could not give us a firm date on the release of
+AppStream version 2, and a tight deadline on our Windows integration effort
+required us to abandon investigating this possibility further. We do plan on
+revisiting AppStream version 2 and evaluating it for incorporation into HUBzero
+at a later time.
+
+\subsection{Amazon AppStream version 2}
+
+Citrix is a market leader in providing remote access Microsoft Windows
+software. Other groups at Purdue University were using Citrix, and early
+discussions with them indicated we had some in-house experience with Citrix
+technologies we could potentially leverage in our integration as we designed a
+way to offer Microsoft Windows applications to our end users. Citrix based
+solutions appeared to easily meet all of our design criteria, however, we
+hesitated pursuing this solution at first due to the extreme learning curve
+required to implement and manage a Citrix infrastructure.
+
+As we continued to evaluate Citrix's XenApp and XenDestkop, the level of
+client interoperability became a clear advantage. Citrix had spent the last
+several decades designing utilities to make remote application access client
+tools seamlessly integrate with all major operating systems of their end users.
+Citrix also offered a technology called HDX which offered a highly optimized
+and adaptive system that allows Citrix to closely emulate the level of
+performance users require in graphics intensive applications running on local
+hardware. When our end users began to see early versions of our Citrix based
+solution, it became clear this was the direction our team should pursue.
+
+After meeting with some Citrix engineers, we learned that that Citrix offered a
+cloud based solution in which they would host the bulk of the administrative
+infrastructure required to deploy their products. Their cloud solution could
+be configured to deploy and manage our VDI in AWS and had the flexibility to
+utilize a hybrid model that could deploy resources in a variety of other local
+and cloud based scenarios.
+
+
+\section{Lessons Learned}
 
 Windows based software presented some unique challenges to our team. Our team
 had to embrace commercial off the shelf hardware due to the limited nature of
-open source software in the Windows environment. Our Linux tool sharing
-platform concentrated on development and collaboration in constructing tools,
-we found our Windows users were less concerned with developing the software
-themselves, they often preferred to purchase software instead. Many of the
-Microsoft WIndows tools were licensed tools, often requiring a great deal of
-technical, and legal, setup before the tools could be utilized. We also had to
-overcome our limited Microsoft Windows infrastructure experience.
+open source software in the Windows environment. Many HUBzero components
+heavily integrated with open source tools, and the lack of open source tools in
+many Windows environments forced our team to rethink how we approached our
+development. If a piece of software didn't do what we needed, we
+couldn't fork the software and add our missing feature, we had to look at
+solving problems from different angles.
+
+Our Linux tool sharing platform concentrated on development and collaboration
+in constructing applications, we found our Windows users were less concerned
+with developing the software themselves, they often preferred to purchase
+software instead. This was not problem, however this realization helped us
+strip out some features that we largely unneeded in this particular
+environment.
+
+Many Microsoft WIndows tools are licensed tools, often requiring a great deal
+of technical and legal setup before the tools could be utilized. This setup was
+far more involved and time consuming than we initially predicted. We also had
+to overcome our staff's limited Microsoft Windows infrastructure
+experience. Over the lifetime of HUBzero, we built a staff based on Linux
+skillsets, shifting to Windows proved difficult, not only were we missing
+skills, but we often dealt with staff that even had ideological issues with
+Microsoft Windows itself.
+
+Client interaction over the internet with remote environments can be
+challenging. This was nothing new to us, we struggled with the client
+interaction even in our Linux based system, but the importance of this with our
+Windows users was even more pronounced. Missing features such as clipboard cut
+and paste meant a great deal of lost productivity to our users. Local drive
+access was a critical missing feature from our early efforts. We tended to
+downplay missing features such as these because we were able to overcome these
+limitations ourselves in a variety of ways, but as we expanded our user base, a
+growing number of users found these missing features more and more important.
 
 
-%\section{Conclusion}
-%The conclusion goes here.
+\section{Conclusions}
+
+Years of developing technology on Linux based platforms taught our entire team to look at problems from a certain perspective. Even many of our users were proficient Linux users, so the solutions we devise often assume a lot about our environment and our users. As we begin to look at integrating Microsoft WIndows into HUBzero, we realized we needed to revisit they way we approached designing and developing our system. 
+
+The core of our system will likely remain Linux, but we can no longer construct interfaces, APIs, and packages under the assumption our product will work in a homogenous environment. A key component of HUBzero has been collaboration, but we realized there is a new dimension of collaboration emerging. Early versions of HUBzero focused on collaboration in the development of applications, but we largely missed collaboration in the actual use of the tools and the workflow of how multiple tools worked together to solve complex problems. As we continue our efforts to support Microsoft Windows
+
 
 
 
@@ -410,9 +563,14 @@ overcome our limited Microsoft Windows infrastructure experience.
 
 \begin{thebibliography}{1}
 
-\bibitem{IEEEhowto:kopka}
-H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+\bibitem{TECHCON:Kapadia96}
+Kapadia, Nirav H., Mark S. Lundstrom, and Jose AB Fortes. \emph{A network-based simulation laboratory for collaborative research and technology transfer.} Semiconductor Research Corporation's TECHCON 96 (1996).
+
+\bibitem{ETechNano:Lundstrom06}
+Lundstrom, Mark, and Gerhard Klimeck. \emph{The NCN: science, simulation, and cyber services.} Emerging Technologies-Nanoelectronics, 2006 IEEE Conference on. IEEE, 2006.
+
+\bibitem{Rappture:McLennan04}
+M. McLennan, â\emph{The Rappture Toolkit}, http://rappture.org (2004)
 
 \end{thebibliography}
 
