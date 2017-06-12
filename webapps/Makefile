@@ -1,4 +1,4 @@
-PROJECT = gateways2017
+PROJECT = gateways2017_webapps
 
 ${PROJECT}.pdf: ${PROJECT}.tex
 	texi2pdf ${PROJECT}.tex
