@@ -51,7 +51,7 @@
 
 
 
-\documentclass[conference]{IEEEtran}
+\documentclass[conference]{../sty/IEEEtran}
 % Some Computer Society conferences also require the compsoc mode option,
 % but others use the standard conference format.
 %
@@ -320,28 +320,24 @@
 % not capitalized unless they are the first or last word of the title.
 % Linebreaks \\ can be used within to get better formatting as desired.
 % Do not put math or special symbols in the title.
-\title{Bare Demo of IEEEtran.cls\\ for IEEE Conferences}
+\title {A Case Study on Integrating Web Applications into the HUBzero Gateway Platform}
 
 
 % author names and affiliations
 % use a multiple column layout for up to three different
 % affiliations
-\author{\IEEEauthorblockN{Michael Shell}
-\IEEEauthorblockA{School of Electrical and\\Computer Engineering\\
-Georgia Institute of Technology\\
-Atlanta, Georgia 30332--0250\\
-Email: http://www.michaelshell.org/contact.html}
+\author{\IEEEauthorblockN{Martin Hunt}
+\IEEEauthorblockA{HUBzero\\
+Purdue University\\
+West Lafayette, IN 47907\\
+Email: mmh@purdue.edu}
 \and
-\IEEEauthorblockN{Homer Simpson}
-\IEEEauthorblockA{Twentieth Century Fox\\
-Springfield, USA\\
-Email: homer@thesimpsons.com}
-\and
-\IEEEauthorblockN{James Kirk\\ and Montgomery Scott}
-\IEEEauthorblockA{Starfleet Academy\\
-San Francisco, California 96678--2391\\
-Telephone: (800) 555--1212\\
-Fax: (888) 555--1212}}
+\IEEEauthorblockN{Derrick Kearney}
+\IEEEauthorblockA{HUBzero\\
+Purdue University\\
+West Lafayette, IN 47907\\	
+Email: dsk@purdue.edu}}
+
 
 % conference papers do not typically use \thanks and this command
 % is locked out in conference mode. If really needed, such as for
@@ -380,12 +376,10 @@ Fax: (888) 555--1212}}
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
 \begin{abstract}
-The abstract goes here.
+The HUBzero Platform has a long history of supporting interactive simulation tools with X11-based graphical user interfaces through the web browser. Over the last few years, new HTML and JavaScript based development environments have matured and are being utilized by researchers to help them perform research, develop simulations, clean and explore data, and present results. In this paper, we look at how the HUBzero Platform supports the use and publication of web applications built with Jupyter Notebooks and RStudio’s Shiny, and how this infrastructure is generic enough to support other web application platforms.
 \end{abstract}
 
 % no keywords
-
-
 
 
 % For peer review papers, you can put extra information on the cover
@@ -402,23 +396,46 @@ The abstract goes here.
 
 \section{Introduction}
 % no \IEEEPARstart
-This demo file is intended to serve as a ``starter file''
-for IEEE conference papers produced under \LaTeX\ using
-IEEEtran.cls version 1.8b and later.
-% You must have at least 2 lines in the paragraph with the drop letter
-% (should never be an issue)
-I wish you the best of success.
-
-\hfill mds
  
-\hfill August 26, 2015
+The HUBzero platform was designed to allow simulations to run in containers with X11 graphics forwarded to the users' browsers via the VNC protocol.
+This allowed existing applications to be easily deployed on the servers and run by users everywhere.  For tools and simulations without a GUI, we developed Rappture[cite], a framework for tools providing a simple, consistent GUI running over VNC.
+ 
+Over the last four years, advances in web technologies have helped usher in a new wave of interactivity for user interfaces built using HTML, CSS, JavaScript and WebGL. Where previously, users had to push the refresh button in their web browser to check for updates to a web page or database, Asynchronous JavaScript and XML/JSON (AJAX) and HTML5 now allows those updates to be streamed back to the user’s browser, making the responses to requests more interactive. New, exciting web-based development environments, like Jupyter[cite], and by Studio's Shiny[cite], allow a more interactive, flexible way to develop content. Features like the HTML5 Canvas and WebGL have made interactive graphics and data visualization in the browser a reality.  Running visualizations in the browser is much faster and more scalable than rendering them on a remote server and viewing them through VNC.  
 
-\subsection{Subsection Heading Here}
-Subsection text here.
+In order to take advantage of these new web-based applications, we made some changes to the HUBzero architecture that would allow us to do so while preserving the strengths of the existing platform. 
+
+\section{Current Architecture}
 
 
-\subsubsection{Subsubsection Heading Here}
-Subsubsection text here.
+\subsection {Tool containers}
+When users launch an application on the HUBzero Platform, the application
+runs in a tool container, a lightweight virtual environment implemented using
+OpenVZ[cite], running the Debian GNU/Linux operating system. These OpenVZ based
+containers help provide isolation between the running instances of
+applications being served by the HUB, and provides control over network and
+filesystem access inside of the container.
+
+Each user has a home directory with conventional ownership,
+access controls, and quota limitations. Tools are
+run with the rights and privileges of the particular
+user rather than a shared execution account.
+
+
+\subsection {Supporting X11 based tools}
+
+Upon initialization, each tool container starts an X Windows Server and the
+display is project back into the user's web browser through Virtual Network
+Computing (VNC).  Running an X Server inside of the tool container allows the
+developer to choose from a variety of graphical user interface toolkits with
+which to build an application. The containers support any GUI toolkit that runs
+under the X Window System, including popular options like Tcl/Tk, GTk, Qt, and
+WxWindows.  To aid scientists and researchers who may not have expertise in
+user interface development, our team built Rappture, the Rappid APPlication
+infrastrucTURE.  Rappture is a Tcl/Tk and C++ based toolkit that allows
+developers to quickly assemble and attach a graphical user interface to their science application. On HUBs like nanohub.org and pharmahub.org and mygeohub.org, over 400 applications have been deployed using an X11-based user interface.
+
+
+	
 
 
 % An example of a floating figure using the graphicx package.
