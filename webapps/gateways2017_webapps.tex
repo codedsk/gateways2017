@@ -407,17 +407,17 @@ In order to take advantage of these new web-based applications, we made some cha
 
 
 \subsection {Tool containers}
-When users launch an application on the HUBzero Platform, the application
-runs in a tool container, a lightweight virtual environment implemented using
-OpenVZ\cite{openvz}, running the Debian GNU/Linux operating system. These OpenVZ based
-containers help provide isolation between the running instances of
+
+When users launch an application on the HUBzero Platform, the application runs
+in a tool container, a lightweight virtual environment implemented using
+OpenVZ\cite{openvz}, running the Debian GNU/Linux operating system. These
+OpenVZ based containers help provide isolation between the running instances of
 applications being served by the HUB, and provides control over network and
 filesystem access inside of the container.
 
-Each user has a home directory with conventional ownership,
-access controls, and quota limitations. Tools are
-run with the rights and privileges of the particular
-user rather than a shared execution account.
+Each user has a home directory with conventional ownership, access controls,
+and quota limitations. Tools are run with the rights and privileges of the
+particular user rather than a shared execution account.
 
 
 \subsection {Supporting X11 based tools}
@@ -431,7 +431,10 @@ under the X Window System, including popular options like Tcl/Tk, GTk, Qt, and
 WxWindows.  To aid scientists and researchers who may not have expertise in
 user interface development, our team built Rappture, the Rappid APPlication
 infrastrucTURE.  Rappture is a Tcl/Tk and C++ based toolkit that allows
-developers to quickly assemble and attach a graphical user interface to their science application. On HUBs like nanohub.org and pharmahub.org and mygeohub.org, over 400 applications have been deployed using an X11-based user interface.
+developers to quickly assemble and attach a graphical user interface to their
+science application. On HUBs like nanohub.org and pharmahub.org and
+mygeohub.org, over 400 applications have been deployed using an X11-based user
+interface.
 
 %\begin{figure}%
 %	\centering
@@ -467,84 +470,58 @@ developers to quickly assemble and attach a graphical user interface to their sc
 \caption{Architecture Changes}
 \label{fig_sim}
 \end{figure*}
-%
-% Note that often IEEE papers with subfigures do not employ subfigure
-% captions (using the optional argument to \subfloat[]), but instead will
-% reference/describe all of them (a), (b), etc., within the main caption.
-% Be aware that for subfig.sty to generate the (a), (b), etc., subfigure
-% labels, the optional argument to \subfloat must be present. If a
-% subcaption is not desired, just leave its contents blank,
-% e.g., \subfloat[].
 
 
-% An example of a floating table. Note that, for IEEE style tables, the
-% \caption command should come BEFORE the table and, given that table
-% captions serve much like titles, are usually capitalized except for words
-% such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to
-% and up, which are usually not capitalized unless they are the first or
-% last word of the caption. Table text will default to \footnotesize as
-% the IEEE normally uses this smaller font for tables.
-% The \label must come after \caption as always.
-%
-%\begin{table}[!t]
-%% increase table row spacing, adjust to taste
-%\renewcommand{\arraystretch}{1.3}
-% if using array.sty, it might be a good idea to tweak the value of
-% \extrarowheight as needed to properly center the text within the cells
-%\caption{An Example of a Table}
-%\label{table_example}
-%\centering
-%% Some packages, such as MDW tools, offer better commands for making tables
-%% than the plain LaTeX2e tabular which is used here.
-%\begin{tabular}{|c||c|}
-%\hline
-%One & Two\\
-%\hline
-%Three & Four\\
-%\hline
-%\end{tabular}
-%\end{table}
+\section {Supporting Web Applications}
+\subsection {Jupyter Notebooks}
+\subsection {RStudio's Shiny applications and RMarkdown documents}
+
+For many R users, RStudio is the graphical user interface of choice when
+developing analysis and reports. The desktop version of the application
+provides access to an R based integrated development environment (IDE) and is
+available on all major platforms. RStudio Inc., the company behind the RStudio
+IDE also makes available an Open Source web version of the application that can
+be deployed on a server to provide access for multiple people at a time. While
+the Open Source version of their IDE lacks the administrative, security, and
+monitoring tools tools of their commercial version, it does provide many of the
+features expected by users of the desktop version and can be a good replacement
+for the desktop version if configured correctly.
+
+Using the web version of the RStudio IDE on the HUB is a particularly good
+match because the HUB's tool containers already provide the user space and
+application space isolations that would be required of running a server like
+this on a web server. Tool containers were developed with isolation and
+resource management in mind.
+
+On the HUB, when a user starts the RStudio application, the request is routed
+from the user's web browser, through the HUB's webserver, front and exec
+proxies, and into a tool container where an RStudio server waits to respond.
+
+(What does the front proxy do? setup web sockets? what does the exec proxy do?)
+
+This same mechanism is used to support applications built using Shiny,
+RStudio's library for building web applications from within R, and RMarkdown
+documents. Like the RStudio IDE, Shiny applications and RMarkdown documents
+require a web server to be running in the tool container to field requests from
+the user's web browser. By themselves, static HTML documents with CSS and JavaScript
+can also be served from within a tool container, but there is less of a need
+for the isolation and security features provided by the tool container.
+
+%%FIXME: add citations and examples of published rstudio apps.
 
 
-% Note that the IEEE does not put floats in the very first column
-% - or typically anywhere on the first page for that matter. Also,
-% in-text middle ("here") positioning is typically not used, but it
-% is allowed and encouraged for Computer Society conferences (but
-% not Computer Society journals). Most IEEE journals/conferences use
-% top floats exclusively. 
-% Note that, LaTeX2e, unlike IEEE journals/conferences, places
-% footnotes above bottom floats. This can be corrected via the
-% \fnbelowfloat command of the stfloats package.
+\subsection {Wt}
 
+The changes made to the HUBzero Platform to support web applications are not
+specific to supporting Jupyter Notebooks and RStudio's Shiny and RMarkdown
+based applications and documents.
 
-
+%%FIXME: add citations and examples of published rstudio apps.
 
 \section{Conclusion}
 The conclusion goes here \cite{IEEEhowto:kopka}.
 
 
-
-
-% conference papers do not normally have an appendix
-
-
-% use section* for acknowledgment
-\section*{Acknowledgment}
-
-
-The authors would like to thank...
-
-
-
-
-
-% trigger a \newpage just before the given reference
-% number - used to balance the columns on the last page
-% adjust value as needed - may need to be readjusted if
-% the document is modified later
-%\IEEEtriggeratref{8}
-% The "triggered" command can be changed if desired:
-%\IEEEtriggercmd{\enlargethispage{-5in}}
 
 % references section
 
@@ -573,8 +550,6 @@ H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
 
 
 
-
-% that's all folks
 \end{document}
 
 
