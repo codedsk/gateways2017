@@ -397,7 +397,7 @@ The HUBzero Platform has a long history of supporting interactive simulation too
 % no \IEEEPARstart
  
 The HUBzero platform was designed to allow simulations to run in containers with X11 graphics forwarded to the users' browsers via the VNC protocol.
-This allowed existing applications to be easily deployed on the servers and run by users everywhere.  For tools and simulations without a GUI, we developed Rappture[cite], a framework for tools providing a simple, consistent GUI running over VNC.
+This allowed existing applications to be easily deployed on the servers and run by users everywhere.  For tools and simulations without a GUI, we developed Rappture]cite{rappture}, a framework for tools providing a simple, consistent GUI running over VNC.
  
 Over the last four years, advances in web technologies have helped usher in a new wave of interactivity for user interfaces built using HTML, CSS, JavaScript and WebGL. Where previously, users had to push the refresh button in their web browser to check for updates to a web page or database, Asynchronous JavaScript and XML/JSON (AJAX) and HTML5 now allows those updates to be streamed back to the user’s browser, making the responses to requests more interactive. New, exciting web-based development environments, like Jupyter[cite], and by Studio's Shiny[cite], allow a more interactive, flexible way to develop content. Features like the HTML5 Canvas and WebGL have made interactive graphics and data visualization in the browser a reality.  Running visualizations in the browser is much faster and more scalable than rendering them on a remote server and viewing them through VNC.  
 
@@ -460,44 +460,62 @@ interface.
 % Watch out that the combined width of all the subfigures on a 
 % line do not exceed the text width or a line break will occur.
 %
-\begin{figure*}[!t]
-\centering
-\subfloat[Before]{\includegraphics[width=1.5in]{arch_old}%
-\label{fig_first_case}}
-\hfil
-\subfloat[After]{\includegraphics[width=1.5in]{arch_new}%
-\label{fig_second_case}}
-\caption{Architecture Changes}
-\label{fig_sim}
-\end{figure*}
+
 
 
 \section {Supporting Web Applications}
+
 \subsection {Jupyter Notebooks}
+The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and explanatory text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, machine learning and much more. We also plan on using it as an application development framework.
+
+Jupyter was our first target for hub integration. There is an open-source multiuser Jupyter server, but because we wanted our users to have access to all the HUBzero features, we decided against using it, instead opting to integrate Jupyter more deeply in our architecture. We would do this by having Jupyter run in the same environment and using the same OpenVZ containers we were currently using.  
+
+Our first problem to overcome was that our middleware talked to the containers through a custom VNC proxy.  We needed to also be supporting https and websockets.  
+
+The second problem was authentication.  We needed to be sure only authorized users launched notebooks, and also that users could not access another user's session.
+
+Finally, we needed a small number of changes to our middleware to understand the difference in VNC and non-VNC sessions and how to talk to the proxy in each case.
+
+
+
 \subsection {RStudio's Shiny applications and RMarkdown documents}
 
 For many R users, RStudio is the graphical user interface of choice when
 developing analysis and reports. The desktop version of the application
-provides access to an R based integrated development environment (IDE) and is
+provides access to an R-based integrated development environment (IDE) and is
 available on all major platforms. RStudio Inc., the company behind the RStudio
 IDE also makes available an Open Source web version of the application that can
 be deployed on a server to provide access for multiple people at a time. While
-the Open Source version of their IDE lacks the administrative, security, and
-monitoring tools tools of their commercial version, it does provide many of the
+the open source version of their IDE lacks the administrative, security, and
+monitoring tools of their commercial version, it does provide many of the
 features expected by users of the desktop version and can be a good replacement
 for the desktop version if configured correctly.
 
-Using the web version of the RStudio IDE on the HUB is a particularly good
-match because the HUB's tool containers already provide the user space and
-application space isolations that would be required of running a server like
-this on a web server. Tool containers were developed with isolation and
-resource management in mind.
+Getting RStudio running on the hubs required very little additional work after 
+the architectural changes we made for Jupyter.
 
-On the HUB, when a user starts the RStudio application, the request is routed
+\subsection {New Architecture}
+
+\begin{figure*}[!h]
+	\centering
+	\subfloat[Before]{\includegraphics[width=1.5in]{arch_old}%
+		\label{fig_first_case}}
+	\subfloat[After]{\includegraphics[width=1.5in]{arch_new}%
+		\label{fig_second_case}}
+	\caption{Architecture Changes}
+	\label{fig_sim}
+\end{figure*}
+
+On the HUB, when a user starts the a web application, the request is routed
 from the user's web browser, through the HUB's webserver, front and exec
-proxies, and into a tool container where an RStudio server waits to respond.
+proxies, and into a tool container where an Jupyter, RStudio or other server
+waits to respond.
 
-(What does the front proxy do? setup web sockets? what does the exec proxy do?)
+\subsection{Integration at a deeper level}
+
+Integrating web applications into the HUBzero Platform is more than just providing support for applications built with HTML, CSS, and Javascript. Web applications running inside of the tool container have access to the same resources as X11-based applications. Namely, web applications can access a user's HUB disk space, run other applications that have been published on the HUB, and can access powerful compute clusters through Submit[cite].
+
+\section {Examples}
 
 This same mechanism is used to support applications built using Shiny,
 RStudio's library for building web applications from within R, and RMarkdown
@@ -519,7 +537,7 @@ based applications and documents.
 %%FIXME: add citations and examples of published rstudio apps.
 
 \section{Conclusion}
-The conclusion goes here \cite{IEEEhowto:kopka}.
+The conclusion goes here
 
 
 
