@@ -92,7 +92,7 @@
 
 % *** CITATION PACKAGES ***
 %
-%\usepackage{cite}
+\usepackage{cite}
 % cite.sty was written by Donald Arseneau
 % V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
 % \cite{} output to follow that of the IEEE. Loading the cite package will
@@ -116,12 +116,12 @@
 % *** GRAPHICS RELATED PACKAGES ***
 %
 \ifCLASSINFOpdf
-  % \usepackage[pdftex]{graphicx}
+  \usepackage[pdftex]{graphicx}
   % declare the path(s) where your graphic files are
   % \graphicspath{{../pdf/}{../jpeg/}}
   % and their extensions so you won't have to specify these with
   % every instance of \includegraphics
-  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+  \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
 \else
   % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
   % will default to the driver specified in the system graphics.cfg if no
@@ -217,11 +217,11 @@
 
 
 % *** SUBFIGURE PACKAGES ***
-%\ifCLASSOPTIONcompsoc
-%  \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
-%\else
-%  \usepackage[caption=false,font=footnotesize]{subfig}
-%\fi
+\ifCLASSOPTIONcompsoc
+  \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\else
+  \usepackage[caption=false,font=footnotesize]{subfig}
+\fi
 % subfig.sty, written by Steven Douglas Cochran, is the modern replacement
 % for subfigure.sty, the latter of which is no longer maintained and is
 % incompatible with some LaTeX packages including fixltx2e. However,
@@ -238,7 +238,6 @@
 %
 % The latest version and documentation of subfig.sty can be obtained at:
 % http://www.ctan.org/pkg/subfig
-
 
 
 
@@ -291,7 +290,7 @@
 
 % *** PDF, URL AND HYPERLINK PACKAGES ***
 %
-%\usepackage{url}
+\usepackage{url}
 % url.sty was written by Donald Arseneau. It provides better support for
 % handling and breaking URLs. url.sty is already installed on most LaTeX
 % systems. The latest version and documentation can be obtained at:
@@ -410,7 +409,7 @@ In order to take advantage of these new web-based applications, we made some cha
 \subsection {Tool containers}
 When users launch an application on the HUBzero Platform, the application
 runs in a tool container, a lightweight virtual environment implemented using
-OpenVZ[cite], running the Debian GNU/Linux operating system. These OpenVZ based
+OpenVZ\cite{openvz}, running the Debian GNU/Linux operating system. These OpenVZ based
 containers help provide isolation between the running instances of
 applications being served by the HUB, and provides control over network and
 filesystem access inside of the container.
@@ -434,31 +433,16 @@ user interface development, our team built Rappture, the Rappid APPlication
 infrastrucTURE.  Rappture is a Tcl/Tk and C++ based toolkit that allows
 developers to quickly assemble and attach a graphical user interface to their science application. On HUBs like nanohub.org and pharmahub.org and mygeohub.org, over 400 applications have been deployed using an X11-based user interface.
 
-
-	
-
-
-% An example of a floating figure using the graphicx package.
-% Note that \label must occur AFTER (or within) \caption.
-% For figures, \caption should occur after the \includegraphics.
-% Note that IEEEtran v1.7 and later has special internal code that
-% is designed to preserve the operation of \label within \caption
-% even when the captionsoff option is in effect. However, because
-% of issues like this, it may be the safest practice to put all your
-% \label just after \caption rather than within \caption{}.
-%
-% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
-% option should be used if it is desired that the figures are to be
-% displayed while in draft mode.
-%
-%\begin{figure}[!t]
-%\centering
-%\includegraphics[width=2.5in]{myfigure}
-% where an .eps filename suffix will be assumed under latex, 
-% and a .pdf suffix will be assumed for pdflatex; or what has been declared
-% via \DeclareGraphicsExtensions.
-%\caption{Simulation results for the network.}
-%\label{fig_sim}
+%\begin{figure}%
+%	\centering
+%	\begin{subfigure}[b]{0.4\textwidth}
+%		\includegraphics[width=\textwidth]{myfigure}
+%	\end{subfigure}
+%	\begin{subfigure}[b]{0.4\textwidth}
+%		\includegraphics[width=\textwidth]{arch_new}
+%	\end{subfigure}
+%	\caption{Changes in Architecture}
+%	\label{fig:arch}
 %\end{figure}
 
 % Note that the IEEE typically puts floats only at the top, even when this
@@ -473,16 +457,16 @@ developers to quickly assemble and attach a graphical user interface to their sc
 % Watch out that the combined width of all the subfigures on a 
 % line do not exceed the text width or a line break will occur.
 %
-%\begin{figure*}[!t]
-%\centering
-%\subfloat[Case I]{\includegraphics[width=2.5in]{box}%
-%\label{fig_first_case}}
-%\hfil
-%\subfloat[Case II]{\includegraphics[width=2.5in]{box}%
-%\label{fig_second_case}}
-%\caption{Simulation results for the network.}
-%\label{fig_sim}
-%\end{figure*}
+\begin{figure*}[!t]
+\centering
+\subfloat[Before]{\includegraphics[width=1.5in]{arch_old}%
+\label{fig_first_case}}
+\hfil
+\subfloat[After]{\includegraphics[width=1.5in]{arch_new}%
+\label{fig_second_case}}
+\caption{Architecture Changes}
+\label{fig_sim}
+\end{figure*}
 %
 % Note that often IEEE papers with subfigures do not employ subfigure
 % captions (using the optional argument to \subfloat[]), but instead will
@@ -536,7 +520,7 @@ developers to quickly assemble and attach a graphical user interface to their sc
 
 
 \section{Conclusion}
-The conclusion goes here.
+The conclusion goes here \cite{IEEEhowto:kopka}.
 
 
 
@@ -581,6 +565,9 @@ The authors would like to thank...
 \bibitem{IEEEhowto:kopka}
 H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
   0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+  
+\bibitem{openvz}
+	"OpenVZ Virtuozzo Containers", \url{https://openvz.org/}
 
 \end{thebibliography}
 
