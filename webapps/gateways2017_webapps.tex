@@ -496,26 +496,51 @@ the architectural changes we made for Jupyter.
 
 \subsection {New Architecture}
 
-\begin{figure*}[!h]
+\begin{figure}[!h]
 	\centering
-	\subfloat[Before]{\includegraphics[width=1.5in]{arch_old}%
+	\subfloat[Before]{\includegraphics[width=1in]{arch_old}%
 		\label{fig_first_case}}
-	\subfloat[After]{\includegraphics[width=1.5in]{arch_new}%
+	\subfloat[After]{\includegraphics[width=1in]{arch_new}%
 		\label{fig_second_case}}
 	\caption{Architecture Changes}
-	\label{fig_sim}
-\end{figure*}
+	\label{fig_arch}
+\end{figure}
 
-On the HUB, when a user starts the a web application, the request is routed
-from the user's web browser, through the HUB's webserver, front and exec
-proxies, and into a tool container where an Jupyter, RStudio or other server
-waits to respond.
+Figure ~\ref{fig_arch} shows the small number of changes actually required to
+integrate web applications. On the HUB, when a user starts the a web application, the request is routed
+from the user's web browser, through the HUB's webserver, and proxy to an execution host.  From there, an exec proxy sends data to and from  a tool container where a Jupyter, RStudio or other server waits to respond.  Tool containers may run simulation code or simply control simulations run on clusters or grids.
 
 \subsection{Integration at a deeper level}
 
 Integrating web applications into the HUBzero Platform is more than just providing support for applications built with HTML, CSS, and Javascript. Web applications running inside of the tool container have access to the same resources as X11-based applications. Namely, web applications can access a user's HUB disk space, run other applications that have been published on the HUB, and can access powerful compute clusters through Submit[cite].
 
 \section {Examples}
+\subsection {Jupyter Notebooks and Tools}
+Jupyter content may be published as notebooks or as tools.  Notebooks are most suitable for instructional content or workflows; where the user will be interested in the implementation and may even modify its content while stepping through the code cells.  Tools, on the other hand, have the code cells hidden.  Users may only interact with the exposed GUI elements.
+
+
+\begin{figure}[!h]
+	\includegraphics[width=3in]{tgnb}
+	\caption{Glass Transition Notebook \cite{tg}}
+	\label{fig_tg}
+\end{figure}
+
+An example of a notebook is shown in figure \ref{fig_tg}.  This notebook calculate the glass transition temperature of an atomistic, amorphous system by running MD simulations in a notebook.  It does this by running a series of calculations using Rapppture tools and tools on clusters.
+
+Some Jupyter tools are  shown in figures \ref{fig_mdvacancy} and \ref{fig_crack}.  Note the lack of source code and editing tools.
+  \begin{figure}[!h]
+  	\includegraphics[width=3in]{mdvacancy}
+  	\caption{Vacancy Formation Energy with MD \cite{mdvacancy}}
+  	\label{fig_tg}
+  \end{figure}
+
+  \begin{figure}[!h]
+  	\includegraphics[width=3in]{crack}
+  	\caption{Creating a New Tool}
+  	\label{fig_tg}
+  \end{figure}
+  
+\subsection {RStudio}
 
 This same mechanism is used to support applications built using Shiny,
 RStudio's library for building web applications from within R, and RMarkdown
@@ -568,6 +593,13 @@ The conclusion goes here
 
 \bibitem{shiny}
 "Shiny by RStudio", \url{http://shiny.rstudio.com/}
+  
+\bibitem{tg}
+	Benjamin P Haley; Lorena Alzate-Vargas (2017), "Glass transition temperature notebook," https://nanohub.org/resources/tgnb. (DOI: 10.4231/D3N873142).
+
+\bibitem{mdvacancy}
+	Sam Reeve (2017), "Vacancy Formation Energy with MD," https://nanohub.org/resources/mdvacancy. (DOI: 10.4231/D39S1KM5R).
+  
   
 \end{thebibliography}
 
