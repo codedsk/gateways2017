@@ -495,7 +495,35 @@ as web applications.
 
 \section {Example web applications running on the HUB}
 
-\subsection {Jupyter Notebooks}
+\subsection {Jupyter}
+Jupyter is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and explanatory text. It includes an IDE that is expanding rapidly in capabilities. Common uses include: data cleaning and transformation, numerical simulation, statistical modeling, machine learning and much more. 
+
+Jupyter supports many different languages, but is primarily used for Python.  On HUBzero we currently also support R and Octave.  
+
+Jupyter content may be published as notebooks or as tools.  Notebooks are most suitable for instructional content or workflows; where the user will be interested in the implementation and may even modify its content while stepping through the code cells.  Tools, on the other hand, have the code cells hidden.  Users may only interact with the exposed GUI elements. HUBzero extensions we developed make it easier to use as an tool development framework.
+
+
+\begin{figure}[!h]
+	\includegraphics[width=3in]{tgnb}
+	\caption{Glass Transition Notebook \cite{tg}}
+	\label{fig_tg}
+\end{figure}
+
+An example of a notebook is shown in figure \ref{fig_tg}.  This notebook calculate the glass transition temperature of an atomistic, amorphous system by running MD simulations in a notebook.  It does this by running a series of calculations using Rapppture tools and tools on clusters.
+
+Some Jupyter tools are  shown in figures \ref{fig_mdvacancy} and \ref{fig_crack}.  Note the lack of source code and editing tools.
+\begin{figure}[!h]
+	\includegraphics[width=3in]{mdvacancy}
+	\caption{Vacancy Formation Energy with MD \cite{mdvacancy}}
+	\label{fig_mdvacancy}
+\end{figure}
+
+\begin{figure}[!h]
+	\includegraphics[width=3in]{crack}
+	\caption{Creating a New Jupyter Tool}
+	\label{fig_crack}
+\end{figure}
+
 
 \subsection {RStudio IDE, Shiny Applications, and RMarkdown Documents}
 
@@ -579,6 +607,12 @@ Concurrency and Computation: Practice and Experience,
 
 \bibitem{wt}
 "Wt: \CC Web Toolkit", \url{https://www.webtoolkit.eu/wt}
+
+\bibitem{tg}
+Benjamin P Haley; Lorena Alzate-Vargas (2017), "Glass transition temperature notebook," https://nanohub.org/resources/tgnb. (DOI: 10.4231/D3N873142).
+
+\bibitem{mdvacancy}
+Sam Reeve (2017), "Vacancy Formation Energy with MD," https://nanohub.org/resources/mdvacancy. (DOI: 10.4231/D39S1KM5R).
 
 \end{thebibliography}
 
