@@ -310,6 +310,7 @@
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
 
+\usepackage{cleveref}
 \usepackage{float}
 \usepackage{relsize}
 \newcommand\CC{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\relsize{-3}{\textbf{++}}}\hspace{.25em}}
@@ -421,18 +422,6 @@ an X11-based user interface.
 
 
 
-%\begin{figure}%
-%	\centering
-%	\begin{subfigure}[b]{0.4\textwidth}
-%		\includegraphics[width=\textwidth]{myfigure}
-%	\end{subfigure}
-%	\begin{subfigure}[b]{0.4\textwidth}
-%		\includegraphics[width=\textwidth]{arch_new}
-%	\end{subfigure}
-%	\caption{Changes in Architecture}
-%	\label{fig:arch}
-%\end{figure}
-
 \section {Adding Support for Web Applications}
 
 Rich sets of widgets and design patterns for desktop style graphical user
@@ -466,15 +455,15 @@ could be properly authenticated.
 \begin{figure}[H]
   \centering
   \subfloat[Supports VNC only]{\includegraphics[width=1.5in]{arch_old}%
-    \label{fig_first_case}}
+    \label{fig_arch_vnc}}
   \subfloat[Supports VNC and web applications]{\includegraphics[width=1.5in]{arch_new}%
-   \label{fig_second_case}}
+   \label{fig_arch_vnc_weber}}
   \caption{To support web applications, two new proxies needed to be added.
 The Weber Front proxy, runs on the web server and terminates an SSL connection
 between the user's web browser and the HUB. The Weber Exec proxy directs
 connections to the tool container where the server side of web applications
  run.}
-  \label{fig_sim}
+  \label{fig_arch}
 \end{figure}
 
 
@@ -509,9 +498,10 @@ Jupyter content may be published as notebooks or as tools.  Notebooks are most s
 	\label{fig_tg}
 \end{figure}
 
-An example of a notebook is shown in figure \ref{fig_tg}.  This notebook calculate the glass transition temperature of an atomistic, amorphous system by running MD simulations in a notebook.  It does this by running a series of calculations using Rapppture tools and tools on clusters.
+An example of a notebook is shown in \Cref{fig_tg}.  This notebook calculate the glass transition temperature of an atomistic, amorphous system by running MD simulations in a notebook.  It does this by running a series of calculations using Rapppture tools and tools on clusters.
 
-Some Jupyter tools are  shown in figures \ref{fig_mdvacancy} and \ref{fig_crack}.  Note the lack of source code and editing tools.
+Note the lack of source code and editing tools in the Jupyter tools shown in \Cref{fig_mdvacancy} and \Cref{fig_crack}.
+
 \begin{figure}[!h]
 	\includegraphics[width=3in]{mdvacancy}
 	\caption{Vacancy Formation Energy with MD \cite{mdvacancy}}
@@ -576,7 +566,18 @@ perfect for running in a tool container.
 
 
 \section{Conclusion}
-The conclusion goes here
+The landscape of web applications has changed dramatically over the last few
+years. With the release of the HTML5 standard and the capabilites that are now
+available, many developers are choosing to build interactive user interfaces
+for their applications using HTML, CSS, and JavaScript. The HUBzero Platform
+can now support these developer in the same way we have supported developers of
+desktop style applications. Furthermore, users of web development environments
+like Jupyter Notebooks and RStudio have also grown and they are not only
+interested in creating simulation tools and content, but also in sharing them.
+With the changes we have made and outlined above, the HUB can now support these
+new development environments.  As new technologies rise, the HUBzero team
+continues to leverage its unique and flexible platform to serve as a resource
+where people can develop, publish, and share their online simulations.
 
 
 
