@@ -310,6 +310,7 @@
 % correct bad hyphenation here
 \hyphenation{op-tical net-works semi-conduc-tor}
 
+\usepackage{float}
 \usepackage{relsize}
 \newcommand\CC{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\relsize{-3}{\textbf{++}}}\hspace{.25em}}
 
@@ -337,15 +338,15 @@ Email: dsk@purdue.edu}}
 
 \begin{abstract}
 
-The HUBzero Platform has a long history of supporting interactive simulation
-tools with X11-based graphical user interfaces through the web browser. In
-recent years, new HTML and JavaScript based development environments have
-matured and are being utilized by researchers to help them perform research,
-develop simulations, clean and explore data, and present results. In this
-paper, we look at how the HUBzero Platform supports the use and publication of
-web applications built with Jupyter Notebooks and RStudio's Shiny and RMarkdown
-libraries, and how this infrastructure is generic enough to support other web
-application platforms.
+The HUBzero\textsuperscript{\textregistered} Platform has a long
+history of supporting interactive simulation tools with X11-based graphical
+user interfaces through the web browser. In recent years, new HTML and
+JavaScript based development environments have matured and are being utilized
+by researchers to help them perform research, develop simulations, clean and
+explore data, and present results. In this paper, we look at how the HUBzero
+Platform supports the use and publication of web applications built with
+Jupyter Notebooks and RStudio's Shiny and RMarkdown libraries, and how this
+infrastructure is generic enough to support other web application platforms.
 
 \end{abstract}
 
@@ -461,6 +462,22 @@ To adapt to the changing face of the graphical user interface, the HUBzero
 Platform had to first add support in the middleware for HTTPS connections with
 websockets and then needed to ensure that requests to access tool containers
 could be properly authenticated.
+
+\begin{figure}[H]
+  \centering
+  \subfloat[Supports VNC only]{\includegraphics[width=1.5in]{arch_old}%
+    \label{fig_first_case}}
+  \subfloat[Supports VNC and web applications]{\includegraphics[width=1.5in]{arch_new}%
+   \label{fig_second_case}}
+  \caption{To support web applications, two new proxies needed to be added.
+The Weber Front proxy, runs on the web server and terminates an SSL connection
+between the user's web browser and the HUB. The Weber Exec proxy directs
+connections to the tool container where the server side of web applications
+ run.}
+  \label{fig_sim}
+\end{figure}
+
+
 
 These challenges were first tackled for our initial implementation which made
 Jupyter Notebooks available on the HUB. The implementation ran a notebook
