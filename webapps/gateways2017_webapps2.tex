@@ -159,7 +159,7 @@
 
 % *** MATH PACKAGES ***
 %
-%\usepackage{amsmath}
+\usepackage{amsmath}
 % A popular package from the American Mathematical Society that provides
 % many useful and powerful commands for dealing with mathematics.
 %
@@ -315,6 +315,11 @@
 \usepackage{relsize}
 \newcommand\CC{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\relsize{-3}{\textbf{++}}}\hspace{.25em}}
 
+% for angle brackets and guillemet quotes
+% $\langle$one, two three$\rangle$
+% \guilsinglleft one, two three\guilsinglright
+% \usepackage[T1]{fontenc}
+
 
 \begin{document}
 %
@@ -406,7 +411,7 @@ and quota limitations. Applications executed from within the tool container are
 run with the rights and privileges of the particular user rather than a shared
 execution account.
 
-Upon initialization, each tool container starts an X Windows Server and the
+Upon initialization, each tool container starts an X Window (X11) Server and the
 display is project back into the user's web browser through Virtual Network
 Computing (VNC).  Running an X Server inside of the tool container allows the
 developer to choose from a variety of graphical user interface toolkits with
@@ -428,16 +433,17 @@ Rich sets of widgets and design patterns for desktop style graphical user
 interfaces have dominated our screens since the mid-1970s. Even through the
 dot-com bubble of the mid to late 1990s, websites pushed a paradigm where users
 submitted forms to interact with the site and server responses resulted in full
-page refreshes. It wasn't until the mid 2000s when Javascript was used to do
+page refreshes. It wasn't until the mid 2000s when JavaScript was used to do
 partial refreshes of webpages, allowing the user to stay at a single web url
 where the client-server model ``application'' started to feel and act like a
 desktop style application.
 
 Today, web applications can take advantage of the HTML5 standard which, among
 other things, provides support for locally stored data, rich media elements,
-and official support for the <canvas> element which allows developers to draw
-graphics with JavaScript. All pieces that can provide a web application with
-the look, feel, and functionality of a desktop style application.
+and official support for the $\left\langle\text{canvas}\right\rangle$ element which allows
+developers to draw graphics with JavaScript. All pieces that can provide a web
+application with the look, feel, and functionality of a desktop style
+application.
 
 These advances in web application technology, along with the ubiquity of the
 web browser as the common user interface platform across devices, have made
@@ -493,7 +499,8 @@ include: data cleaning and transformation, numerical simulation, statistical
 modeling, machine learning and much more.
 
 Jupyter supports many different languages, but is primarily used for Python.
-On HUBzero we currently also support R and Octave.
+On the HUBzero Platform, users can also use the R and Octave programming
+languages inside of their notebooks.
 
 Jupyter content may be published as notebooks or as tools.  Notebooks are most
 suitable for instructional content or workflows; where the user will be
@@ -532,8 +539,8 @@ Note the lack of source code and editing tools in the Jupyter applications shown
 
 \subsection {RStudio IDE, Shiny Applications, and RMarkdown Documents}
 
-For many R users, RStudio is the graphical user interface of choice when
-developing analysis and reports. The desktop version of the application
+For many R users, the RStudio IDE is the graphical user interface of choice
+when developing analysis and reports. The desktop version of the application
 provides access to an R based integrated development environment (IDE) and is
 available on all major platforms. RStudio Inc., the company behind the RStudio
 IDE also makes available an Open Source web version of the application that can
@@ -545,13 +552,14 @@ for the desktop version if configured correctly.
 
 Using the web version of the RStudio IDE on the HUB is a particularly good
 match because the HUB's tool containers already provide the user space and
-application space isolations that would be required of running a server like
+application space isolations that would be required for running a server like
 this on a web server. Tool containers were developed with isolation and
 resource management in mind.
 
-On the HUB, when a user starts the RStudio application, the request is routed
-from the user's web browser, through the HUB's webserver, front and exec
-proxies, and into a tool container where an RStudio server waits to respond.
+On the HUB, when a user starts the RStudio IDE application, the request is
+routed from the user's web browser, through the HUB's webserver, front and exec
+proxies, and into a tool container where an instance of the RStudio Server
+waits to respond.
 
 This same mechanism is used to support applications built using Shiny,
 RStudio's library for building web applications from within R, and RMarkdown
