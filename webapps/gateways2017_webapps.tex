@@ -432,7 +432,7 @@ an X11-based user interface.
 Rich sets of widgets and design patterns for desktop style graphical user
 interfaces have dominated our screens since the mid-1970s. Even through the
 dot-com bubble of the mid to late 1990s, websites pushed a paradigm where users
-submitted forms to interact with the site and server responses resulted in full
+submitted forms to interact with the site, and server responses resulted in full
 page refreshes. It wasn't until the mid 2000s when JavaScript was used to do
 partial refreshes of webpages, allowing the user to stay at a single web url
 where the client-server model ``application'' started to feel and act like a
@@ -440,18 +440,19 @@ desktop style application.
 
 Today, web applications can take advantage of the HTML5 standard which, among
 other things, provides support for locally stored data, rich media elements,
-and official support for the $\left\langle\text{canvas}\right\rangle$ element which allows
-developers to draw graphics with JavaScript. All pieces that can provide a web
-application with the look, feel, and functionality of a desktop style
-application.
+and official support for the $\left\langle\text{canvas}\right\rangle$ element
+which allows developers to draw graphics with JavaScript. These are all pieces
+that help to provide web applications with the look, feel, and functionality of
+desktop style applications.
 
 These advances in web application technology, along with the ubiquity of the
 web browser as the common user interface platform across devices, have made
 creating interactive graphical user interfaces with HTML, CSS, and JavaScript a
-reality and a necessity. The HUBzero Platform recognized the rise in interest
-for building web applications and adjusted the middleware to support running
-web applications on the platform in a way that kept the strengths of the
-platform, like security and application isolation, in the forefront.
+reality and a necessity. With the rising interest from developers to deploy web
+applications and interest from users to build interactive workflows, our team
+made adjustments to our software stack to support running web applications on
+our infrastructure in a way that kept the strengths of the platform, like
+security and application isolation, in the forefront.
 
 To adapt to the changing face of the graphical user interface, the HUBzero
 Platform had to first add support in the middleware for HTTPS connections with
@@ -477,22 +478,22 @@ connections to the tool container where the server side of web applications
 These challenges were first tackled for our initial implementation which made
 Jupyter Notebooks available on the HUB. The implementation ran a notebook
 server within the tool container and streamed HTML, CSS, and JavaScript from
-the tool container, through the front and exec proxies, and out to the user's
-web browser. Running the notebook server within the tool container give the web
-application many of the same benefits of running a desktop style application in
-the tool container. Namely, users could access their own HUB disk space, run
-other applications that had been published on the HUB, and access powerful
-compute clusters through Submit \cite{submit}. A similar setup was attempted
-with the RStudio integrated development environment (IDE) and again with Wt, a
-lesser known \CC based toolkit for building web applications. The robustness of
-the new HUBzero architecture allowed each of these applications to be deployed
-as web applications.
+the tool container, through the Weber Front and Exec proxies, and out to the
+user's web browser. Running the notebook server within the tool container give
+the web application many of the same benefits of running a desktop style
+application in the tool container. Namely, users could access their own HUB
+disk space, run other applications that had been published on the HUB, and
+access powerful compute clusters through Submit \cite{submit}. Similar setups
+were attempted with the RStudio IDE, several NodeJs applications, and with Wt,
+a lesser known \CC based toolkit for building web applications. In each case,
+the robustness of the new HUBzero architecture allowed the application to be
+deployed within the infrastructure.
 
 \section {Example web applications running on the HUB}
 
 \subsection {Jupyter}
 
-Jupyter is an open-source web application that allows you to create and share
+Jupyter is an open-source web application that allows users to create and share
 documents that contain live code, equations, visualizations and explanatory
 text. It includes an IDE that is expanding rapidly in capabilities. Common uses
 include: data cleaning and transformation, numerical simulation, statistical
@@ -557,7 +558,7 @@ this on a web server. Tool containers were developed with isolation and
 resource management in mind.
 
 On the HUB, when a user starts the RStudio IDE application, the request is
-routed from the user's web browser, through the HUB's webserver, front and exec
+routed from the user's web browser, through the HUB's webserver, Weber Front and Exec
 proxies, and into a tool container where an instance of the RStudio Server
 waits to respond.
 
