@@ -497,29 +497,47 @@ have been deployed on the HUB, using this new infrastructure.
 
 \subsection {Jupyter}
 
-Jupyter is an open-source web application that allows users to create and share
-documents that contain live code, equations, visualizations and explanatory
-text. It includes an IDE that is expanding rapidly in capabilities. Common uses
-include: data cleaning and transformation, numerical simulation, statistical
-modeling, machine learning and much more.
+Over the years, there have been a number of players in the literate computing
+space. It's a space that blurs the lines between documentation, programming,
+and the application, by combining narrative, live code, and visualization into
+one document to tell a story. One of the more recent additions to the space is
+Project Jupyter with their offering of the Jupyter Notebook, an open-source web
+application that supports multiple languages and provides an intuitive
+integrated development environment (IDE) that complements the way many people
+go about working with data, building models, and running simulations.  Jupyter
+Notebooks were the first web applications to be supported on the HUBzero
+Platform, and the implementation approach gives it rare capabilities.
 
-Jupyter supports many different languages, but is primarily used for Python.
-On the HUBzero Platform, users can also use the R and Octave programming
-languages inside of their notebooks.
+To build a Notebook outside of the HUB ecosystem, people commonly download and
+install the Jupyter Notebook software on their own computer. To share their
+Notebook, they can post it to GitHub, or one of the other many websites that
+support the storage of Notebooks, but this means other people need to have the
+Jupyter Notebook software on their computer in order to view it. Furthermore,
+if other people wanted to interact with the Notebook and execute the cells with
+their own data sets, they would need to find and install all of the packages
+and libraries necessary to run the notebook.
 
-Jupyter content may be published as notebooks or as tools.  Notebooks are most
-suitable for instructional content or workflows; where the user will be
-interested in the implementation and may even modify its content while stepping
-through the code cells.  Tools, on the other hand, have the code cells hidden.
-Users may only interact with the exposed GUI elements. HUBzero extensions we
-developed make it easier to use as an tool development framework.
+With Jupyter running on the HUB, users can instantly start working in a
+Notebook, in an environment preloaded with over 450 commonly used packages,
+spanning the Python, R, and Octave programming languages. In addition to being
+able work interactivly with notebooks, either new ones the user just started or
+mature ones they uploaded into their HUB drive, users can also publish
+Notebooks and provide a one click solution for others who want to run their
+code.
+% reproduce their research?
+Jupyter content can also be published as a tool on the HUB, where the
+notebook's code cells are hidden and users can only interact with the exposed
+graphical user interface elements. HUBzero extensions, like HUBLIB, help lower
+the barriers to using the Jupyter Notebook environment as a tool development
+framework.
 
 
 \begin{figure}[!h]
-	\includegraphics[width=3in]{tgnb}
-	\caption{Glass Transition Notebook \cite{tg}}
-	\label{fig_tg}
+  \includegraphics[width=3in]{tgnb}
+  \caption{Glass Transition Notebook \cite{tg}}
+  \label{fig_tg}
 \end{figure}
+
 
 An example of a notebook is shown in \Cref{fig_tg}.  This notebook calculate
 the glass transition temperature of an atomistic, amorphous system by running
@@ -530,15 +548,15 @@ Note the lack of source code and editing tools in the Jupyter applications shown
 \Cref{fig_mdvacancy} and \Cref{fig_crack}.
 
 \begin{figure}[!h]
-	\includegraphics[width=3in]{mdvacancy}
-	\caption{Vacancy Formation Energy with MD \cite{mdvacancy}}
-	\label{fig_mdvacancy}
+  \includegraphics[width=3in]{mdvacancy}
+  \caption{Vacancy Formation Energy with MD \cite{mdvacancy}}
+  \label{fig_mdvacancy}
 \end{figure}
 
 \begin{figure}[!h]
-	\includegraphics[width=3in]{crack}
-	\caption{Creating a New Jupyter Tool}
-	\label{fig_crack}
+  \includegraphics[width=3in]{crack}
+  \caption{Creating a New Jupyter Tool}
+  \label{fig_crack}
 \end{figure}
 
 
