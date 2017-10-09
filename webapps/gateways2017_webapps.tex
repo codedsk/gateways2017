@@ -488,8 +488,8 @@ own HUB disk space, run other applications that had been published on the HUB,
 and access powerful compute clusters through Submit \cite{submit}.
 
 Not long after building the Jupyter Notebook proof of concept, the team began
-trying similar setups with the RStudio's IDE and Shiny, several NodeJs
-applications, Python's Flask microframework, with Wt, a lesser known \CC based
+trying similar setups with the RStudio's IDE and Shiny, several Node.js
+applications, Python's Flask microframework, and Wt, a lesser known \CC based
 toolkit for building web applications. In each case, the robustness of the new
 HUBzero architecture allowed the application to be deployed within the
 infrastructure. Let's take a look at a few examples of web applications that
@@ -534,18 +534,21 @@ the barriers to using the Jupyter Notebook environment as a tool development
 framework.
 
 
+%% FIXME: center image
 \begin{figure}[!h]
   \includegraphics[width=3in]{tgnb}
   \caption{Glass Transition Notebook \cite{tg}}
   \label{fig_tg}
 \end{figure}
 
+%% FIXME: center image
 \begin{figure}[!h]
   \includegraphics[width=3in]{mdvacancy}
   \caption{Vacancy Formation Energy with MD \cite{mdvacancy}}
   \label{fig_mdvacancy}
 \end{figure}
 
+%% FIXME: center image
 \begin{figure}[!h]
   \includegraphics[width=3in]{crack}
   \caption{Creating a New Jupyter Tool}
@@ -567,6 +570,10 @@ case the process to publish the content requires four element:
 \item Makefile
 \item Invoke Script
 \end{enumerate}
+
+
+%% FIXME: make clear that makefile is optional
+%% FIXME: in jupyter notebook, developers can choose to hide or show the source code for the application.
 
 For Jupyter content, the graphical user interface may be a part of the source
 code. When publishing applications on the HUB, a copy of the source code will
@@ -601,34 +608,35 @@ when developing analysis and reports. The desktop version of the application
 provides access to an R based integrated development environment (IDE) and is
 available on all major platforms. RStudio Inc., the company behind the RStudio
 IDE also makes available an Open Source web version of the application that can
-be deployed on a server to provide access for multiple people at a time. While
-the Open Source version of their IDE lacks the administrative, security, and
-monitoring tools tools of their commercial version, it does provide many of the
-features expected by users of the desktop version and can be a good replacement
-for the desktop version if configured correctly.
+be deployed on a server to provide access for multiple people to use at a time.
+While the Open Source version of their IDE lacks the administrative, security,
+and monitoring tools tools of their commercial version, it does provide many of
+the features expected by users of the desktop version and can be a good
+replacement for the desktop version if configured correctly.
 
 Using the web version of the RStudio IDE on the HUB is a particularly good
 match because the HUB's tool containers already provide the user space and
-application space isolations that would be required for running a server like
-this on a web server. Tool containers were developed with isolation and
+application space isolations that would be required for running an application
+like this on a web server. Tool containers were developed with isolation and
 resource management in mind.
 
-On the HUB, when a user starts the RStudio IDE application, the request is
-routed from the user's web browser, through the HUB's webserver, Weber Front and Exec
-proxies, and into a tool container where an instance of the RStudio Server
-waits to respond.
+On the HUB, when a user starts the RStudio IDE, the request is routed from the
+user's web browser, through the HUB's webserver, Weber Front and Exec proxies,
+and into a tool container where an instance of the RStudio Server waits to
+respond. This same mechanism is used to support applications built using
+Shiny, RStudio's library for building web applications from within R, and
+RMarkdown documents. Like the RStudio IDE, Shiny applications and RMarkdown
+documents require a web server to be running in the tool container to field
+requests from the user's web browser. By themselves, static HTML documents with
+CSS and JavaScript can also be served from within a tool container, but there
+is less of a need for the isolation and security features provided by the tool
+container.
 
-This same mechanism is used to support applications built using Shiny,
-RStudio's library for building web applications from within R, and RMarkdown
-documents. Like the RStudio IDE, Shiny applications and RMarkdown documents
-require a web server to be running in the tool container to field requests from
-the user's web browser. By themselves, static HTML documents with CSS and JavaScript
-can also be served from within a tool container, but there is less of a need
-for the isolation and security features provided by the tool container.
+%%Publishing 
 
 %%FIXME: add citations and examples of published rstudio apps.
 
-%%\subsection{NodeJs Applications}
+%%\subsection{Node.js Applications}
 %%
 %% what does it take to get a nodejs application online?
 %% show picture of finished product
@@ -647,19 +655,48 @@ for the isolation and security features provided by the tool container.
 %% wrwroxy for authentication
 
 
-\subsection {Other toolkits}
+\subsection {Node.js, Flask, and Other toolkits}
 
 The changes made to the HUBzero Platform to support web applications are not
 specific to supporting Jupyter Notebooks and RStudio's Shiny and RMarkdown
 based applications and documents. The pattern of running a web server in the
 tool container and connecting it to the user's web browser can be extended to
-many of the web application frameworks available today. One library that
+many of the web application frameworks available today.
+
+The HUBzero team has built and deployed Node.js and Python Flask examples that
+show how web applications built using these frameworks can be supported under
+the same architecture.
+
+Spironode is a Node.js and Python implementation of the Spirograph program. It
+uses the Express web application framework and EJS templating system to
+generate the HTML based graphical user interface and handle routing of requests
+from the user's web browser. The \textit{science} code of calculating the
+coordinates for the spirograph is performed in Python, with the Node.js based
+user interface calling a separate python program and feeding it inputs from the
+user. The calculated spirograph coordinates are then sent back to the user
+where they are rendered by JavaScript running in the browser.
+
+%% FIXME: cite node.js: https://nodejs.org/en/
+%% FIXME: cite express: https://expressjs.com/
+%% FIXME: add a registered sign next to the first use of Node.js
+%% FIXME: cite ejs: http://ejs.co/
+
+
+Spiroflask is a Python Flask based implementation of the Spirograph program.
+Its implementation is similar to that of spironode, but both the graphical user
+interface and the core science code are written in Python. It uses Flask's
+Jinja2 based templating engine along with the WTForms package to generate the
+graphical user interface. To get an application like this published, 
+
+
+
+One library that
 demonstrates this is Wt\cite{wt}. Wt is a \CC based library for building web
 applications. Applications can be served using FastCGI in coordination with a
 web server or the application can act as its own web server. The latter is
 perfect for running in a tool container.
 
-%%FIXME: add citations for Wt.
+%% FIXME: add citations for Wt.
 
 
 
@@ -677,6 +714,9 @@ new development environments.  As new technologies rise, the HUBzero team
 continues to leverage its unique and flexible platform to serve as a resource
 where people can develop, publish, and share their online simulations.
 
+
+
+% we allow people to publish a web stack, not just a static html page
 
 
 % references section
