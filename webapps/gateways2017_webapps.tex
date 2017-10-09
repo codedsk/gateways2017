@@ -315,6 +315,8 @@
 \usepackage{relsize}
 \newcommand\CC{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\relsize{-3}{\textbf{++}}}\hspace{.25em}}
 
+\usepackage{listings}
+
 % for angle brackets and guillemet quotes
 % $\langle$one, two three$\rangle$
 % \guilsinglleft one, two three\guilsinglright
@@ -538,15 +540,6 @@ framework.
   \label{fig_tg}
 \end{figure}
 
-
-An example of a notebook is shown in \Cref{fig_tg}.  This notebook calculate
-the glass transition temperature of an atomistic, amorphous system by running
-MD simulations in a notebook.  It does this by running a series of calculations
-using Rappture tools and tools on clusters.
-
-Note the lack of source code and editing tools in the Jupyter applications shown in
-\Cref{fig_mdvacancy} and \Cref{fig_crack}.
-
 \begin{figure}[!h]
   \includegraphics[width=3in]{mdvacancy}
   \caption{Vacancy Formation Energy with MD \cite{mdvacancy}}
@@ -558,6 +551,40 @@ Note the lack of source code and editing tools in the Jupyter applications shown
   \caption{Creating a New Jupyter Tool}
   \label{fig_crack}
 \end{figure}
+
+Tg, shown in \Cref{fig_tg}, is a Jupyter Notebook published on nanoHUB.org that
+calculates glass transition temperatures through molecular dynamics
+calculations. Under the hood, it runs a workflow that incorporates previously
+published Rappture applications, jobs sent to remote compute clusters, and
+local calculations. Other types of Jupyter content that can be published on the
+HUBzero Platform can be seen in \Cref{fig_mdvacancy} and \Cref{fig_crack}. Note
+the lack of source code and editing tools shown in these applications. In each
+case the process to publish the content requires four element:
+
+\begin{enumerate}
+\item Source Code
+\item Graphical User Interface
+\item Makefile
+\item Invoke Script
+\end{enumerate}
+
+For Jupyter content, the graphical user interface may be a part of the source
+code. When publishing applications on the HUB, a copy of the source code will
+be stored on the HUB so it can be served to others. Data can either be served
+from the HUB or access remotely by the application. A Makefile will be used to
+orchestrate building and installation of the application while the Invoke
+script is used to launch the application. Jupyter content being published on
+the HUB can use a variation of the standard HUBzero Jupyter invoke script shown
+in \Cref{lst:jupyter_invoke}.
+
+%%\begin{lstlisting}[caption={Jupyter Notebook invoke script},label={lst:jupyter_invoke},language=Python]
+%%#!/bin/sh
+%%
+%%/usr/bin/invoke_app "$@" -t toolname \
+%%  -u anaconda2-4.1
+%%  -C "start_jupyter -T @tool bin/notebook.ipynb" \
+%%\end{lstlisting}
+
 
 
 \subsection {RStudio IDE, Shiny Applications, and RMarkdown Documents}
