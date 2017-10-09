@@ -45,7 +45,7 @@
 % *** Authors should verify (and, if needed, correct) their LaTeX system  ***
 % *** with the testflow diagnostic prior to trusting their LaTeX platform ***
 % *** with production work. The IEEE's font choices and paper sizes can   ***
-% *** trigger bugs that do not appear when using other class files.       ***                          ***
+% *** trigger bugs that do not appear when using other class files.       ***
 % The testflow support page is at:
 % http://www.michaelshell.org/tex/testflow/
 
@@ -475,19 +475,23 @@ connections to the tool container where the server side of web applications
 
 
 
-These challenges were first tackled for our initial implementation which made
-Jupyter Notebooks available on the HUB. The implementation ran a notebook
-server within the tool container and streamed HTML, CSS, and JavaScript from
-the tool container, through the Weber Front and Exec proxies, and out to the
-user's web browser. Running the notebook server within the tool container give
-the web application many of the same benefits of running a desktop style
-application in the tool container. Namely, users could access their own HUB
-disk space, run other applications that had been published on the HUB, and
-access powerful compute clusters through Submit \cite{submit}. Similar setups
-were attempted with the RStudio IDE, several NodeJs applications, and with Wt,
-a lesser known \CC based toolkit for building web applications. In each case,
-the robustness of the new HUBzero architecture allowed the application to be
-deployed within the infrastructure.
+These challenges were tackled first while developing support for Jupyter
+Notebooks.  The implementation plan involved running the notebook server within
+the tool container and streaming the HTML, CSS, and JavaScript from the tool
+container, through the Weber Front and Exec proxies, and out to the user's web
+browser. By hosting the notebook server inside of a tool container, users were
+enjoy many of the same benefits they had become accustomed to while running the
+HUB's desktop style application offerings.  Namely, users could access their
+own HUB disk space, run other applications that had been published on the HUB,
+and access powerful compute clusters through Submit \cite{submit}.
+
+Not long after building the Jupyter Notebook proof of concept, the team began
+trying similar setups with the RStudio's IDE and Shiny, several NodeJs
+applications, Python's Flask microframework, with Wt, a lesser known \CC based
+toolkit for building web applications. In each case, the robustness of the new
+HUBzero architecture allowed the application to be deployed within the
+infrastructure. Let's take a look at a few examples of web applications that
+have been deployed on the HUB, using this new infrastructure.
 
 \section {Example web applications running on the HUB}
 
@@ -539,6 +543,13 @@ Note the lack of source code and editing tools in the Jupyter applications shown
 
 
 \subsection {RStudio IDE, Shiny Applications, and RMarkdown Documents}
+%% what does it take to get a shiny application online?
+%% show picture of finished product
+%% what is involved: source code (app.R)
+%% makefile to install libraries, packrat?
+%% invoke script to start web application
+%% wrwroxy for authentication
+%% wrapprun for starting Shiny applications and R Markdown documents
 
 For many R users, the RStudio IDE is the graphical user interface of choice
 when developing analysis and reports. The desktop version of the application
@@ -571,6 +582,24 @@ can also be served from within a tool container, but there is less of a need
 for the isolation and security features provided by the tool container.
 
 %%FIXME: add citations and examples of published rstudio apps.
+
+%%\subsection{NodeJs Applications}
+%%
+%% what does it take to get a nodejs application online?
+%% show picture of finished product
+%% what is involved: source code (app.js, index.ejs, spiro.py, scripts.js)
+%% makefile to install libraries, npm & package.json
+%% invoke script to start web application
+%% wrwroxy for authentication
+
+%%\subsection{Python Flask Applications}
+%%
+%% what does it take to get a flask application online?
+%% show picture of finished product
+%% what is involved: source code (views.py, index.html, scripts.js)
+%% makefile to install libraries, virtualenv, pip & requirements.txt
+%% invoke script to start web application
+%% wrwroxy for authentication
 
 
 \subsection {Other toolkits}
